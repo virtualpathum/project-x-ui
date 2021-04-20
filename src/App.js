@@ -32,7 +32,7 @@ const App = () => {
 
   useEffect(() => {
     if (currentUser) {
-      setShowModeratorBoard(currentUser.roles.includes("ROLE_MODERATOR"));
+      setShowModeratorBoard(currentUser.roles.includes("ROLE_USER"));
       setShowAdminBoard(currentUser.roles.includes("ROLE_ADMIN"));
     }
   }, [currentUser]);
@@ -46,7 +46,7 @@ const App = () => {
       <div>
         <nav className="navbar navbar-expand navbar-dark bg-dark">
           <Link to={"/"} className="navbar-brand">
-            bezKoder
+            Project-X
           </Link>
           <div className="navbar-nav mr-auto">
             <li className="nav-item">
@@ -89,7 +89,7 @@ const App = () => {
               </li>
               <li className="nav-item">
                 <a href="/login" className="nav-link" onClick={logOut}>
-                  LogOut
+                  Log out
                 </a>
               </li>
             </div>

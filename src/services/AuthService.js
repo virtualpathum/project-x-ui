@@ -2,18 +2,20 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8070/project-x/api/auth/";
 
-const register = (username, email, password) => {
+const register = (firstName, username, email, password, role) => {
   return axios.post(API_URL + "signup", {
+    firstName,
     username,
     email,
     password,
+    role
   });
 };
 
-const login = (username, password) => {
+const login = (usernameOrEmail, password) => {
   return axios
     .post(API_URL + "signin", {
-      username,
+      usernameOrEmail,
       password,
     })
     .then((response) => {

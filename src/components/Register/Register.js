@@ -18,6 +18,16 @@ const required = (value) => {
   }
 };
 
+const vname = (value) => {
+    if (value.length == 0) {
+        return (
+          <div className="alert alert-danger" role="alert">
+            The name cannot be empty.
+          </div>
+        );
+      }
+  };
+
 const validEmail = (value) => {
   if (!isEmail(value)) {
     return (
@@ -48,13 +58,26 @@ const vpassword = (value) => {
   }
 };
 
+const vrole = (value) => {
+  console.log('xxx value : ', value)
+  if (value.length == 0) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        Please select user role.
+      </div>
+    );
+  }
+};
+
 const Register = () => {
   const form = useRef();
   const checkBtn = useRef();
 
   const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
   const [successful, setSuccessful] = useState(false);
 
   const { message } = useSelector(state => state.message);
@@ -63,6 +86,12 @@ const Register = () => {
   const onChangeUsername = (e) => {
     const username = e.target.value;
     setUsername(username);
+  };
+
+  const onChangeName = (e) => {
+    const name = e.target.value;
+    
+    setName(name);
   };
 
   const onChangeEmail = (e) => {
@@ -75,6 +104,12 @@ const Register = () => {
     setPassword(password);
   };
 
+  const onSelectRole = (e) => {
+    const role = e.target.value;
+    console.log('role :', role)
+    setRole(role);
+  };
+
   const handleRegister = (e) => {
     e.preventDefault();
 
@@ -83,7 +118,7 @@ const Register = () => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      dispatch(register(username, email, password))
+      dispatch(register(name,username, email, password, role))
         .then(() => {
           setSuccessful(true);
         })
@@ -105,6 +140,17 @@ const Register = () => {
         <Form onSubmit={handleRegister} ref={form}>
           {!successful && (
             <div>
+                <div className="form-group">
+                <label htmlFor="name">Name</label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="firstName"
+                  value={name}
+                  onChange={onChangeName}
+                  validations={[required, vname]}
+                />
+              </div>
               <div className="form-group">
                 <label htmlFor="username">Username</label>
                 <Input
@@ -139,6 +185,16 @@ const Register = () => {
                   onChange={onChangePassword}
                   validations={[required, vpassword]}
                 />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="role">User Role</label>
+                <select className="form-control" name="Roles" onChange={onSelectRole}  validations={[required, vrole]}> 
+                  <option value="">Select...</option>
+                  <option value="user">User</option>
+                  <option value="moderator">Moderator</option>
+                  <option value="admin">Admin</option>
+                </select>
               </div>
 
               <div className="form-group">
