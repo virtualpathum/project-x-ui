@@ -77,7 +77,7 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
+  const [roles, setRoles] = useState([]);
   const [successful, setSuccessful] = useState(false);
 
   const { message } = useSelector(state => state.message);
@@ -107,7 +107,7 @@ const Register = () => {
   const onSelectRole = (e) => {
     const role = e.target.value;
     console.log('role :', role)
-    setRole(role);
+    setRoles(role);
   };
 
   const handleRegister = (e) => {
@@ -118,7 +118,7 @@ const Register = () => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      dispatch(register(name,username, email, password, role))
+      dispatch(register(name,username, email, password, roles))
         .then(() => {
           setSuccessful(true);
         })
