@@ -3,30 +3,41 @@ import React, { useState, useEffect } from "react";
 import UserService from "../../services/UserService";
 
 const BoardUser = () => {
-  const [content, setContent] = useState("");
+  const [userDetails, setUserDetails] = useState([]);
 
   useEffect(() => {
     UserService.getUserBoard().then(
       (response) => {
-        setContent(response.data);
+        console.log(response.data);
+        setUserDetails(response.data);
+        //console.log('AAAA : ',userDetails)
       },
       (error) => {
-        const _content =
+        const errorMessage =
           (error.response &&
             error.response.data &&
             error.response.data.message) ||
           error.message ||
           error.toString();
 
-        setContent(_content);
+          setUserDetails(errorMessage);
       }
     );
   }, []);
+  console.log('DDDDD',userDetails.map((userDetail) => ({userDetail})))
 
   return (
     <div className="container">
       <header className="jumbotron">
-        <h3>{content}</h3>
+        <>
+        <ol>
+      {userDetails.map((userDetail) => (
+        <li>{userDetail.id}</li>,
+        <li>{userDetail.firstName}</li>,
+        <li>{userDetail.email}</li>
+      ))}
+    </ol>
+        </>
       </header>
     </div>
   );
